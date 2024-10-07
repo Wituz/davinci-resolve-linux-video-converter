@@ -21,9 +21,9 @@ jobs:
     - name: Install dependencies                                                                                                                                                                                                                         
       run: yarn install                                                                                                                                                                                                                                  
   
-    - name: Set Package Version                                                                                                                                                                                                                
-      id: extract_version
-      run: echo ::set-output name=PACKAGE_VERSION::$(echo "1.0.0")
+    - name: Get Package Version
+      id: package_version
+      run: echo ::set-output name=PACKAGE_VERSION::$(node -p "require('./package.json').version")
 
     - name: Build for Linux                                                                                                                                                                                                                              
       run: yarn build:linux                                                                                                                                                                                                                              
@@ -34,8 +34,8 @@ jobs:
       env:                                                                                                                                                                                                                                               
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}                                                                                                                                                                                                        
       with:                                                                                                                                                                                                                                              
-        tag_name: v${{ env.PACKAGE_VERSION }}                                                                                                                                                                                                            
-        release_name: Release v${{ env.PACKAGE_VERSION }}                                                                                                                                                                                                
+        tag_name: v${{ steps.package_version.outputs.PACKAGE_VERSION }}                                                                                                                                                                                                           
+        release_name: Release v${{ steps.package_version.outputs.PACKAGE_VERSION }}                                                                                                                                                                                                
         draft: false                                                                                                                                                                                                                                     
         prerelease: false                                                                                                                                                                                                                                
                                                                                                                                                                                                                                                          
@@ -45,8 +45,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}                                                                                                                                                                                                        
       with:                                                                                                                                                                                                                                              
         upload_url: ${{ steps.create_release.outputs.upload_url }}                                                                                                                                                                                       
-        asset_path: ./dist/davinci-resolve-converter-${{ env.PACKAGE_VERSION }}.AppImage                                                                                                                                                                 
-        asset_name: davinci-resolve-converter-${{ env.PACKAGE_VERSION }}.AppImage                                                                                                                                                                        
+        asset_path: ./dist/davinci-resolve-converter-${{ steps.package_version.outputs.PACKAGE_VERSION }}.AppImage                                                                                                                                                                 
+        asset_name: davinci-resolve-converter-${{ steps.package_version.outputs.PACKAGE_VERSION }}.AppImage                                                                                                                                                                        
         asset_content_type: application/x-appimage 
 
     - name: Upload Release Asset (.deb)                                                                                                                                                                                                                         
@@ -55,6 +55,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}                                                                                                                                                                                                        
       with:                                                                                                                                                                                                                                              
         upload_url: ${{ steps.create_release.outputs.upload_url }}                                                                                                                                                                                       
-        asset_path: ./dist/davinci-resolve-converter-${{ env.PACKAGE_VERSION }}.deb                                                                                                                                                                      
-        asset_name: davinci-resolve-converter-${{ env.PACKAGE_VERSION }}.deb                                                                                                                                                                              
+        asset_path: ./dist/davinci-resolve-converter-${{ steps.package_version.outputs.PACKAGE_VERSION }}.deb                                                                                                                                                                      
+        asset_name: davinci-resolve-converter-${{ steps.package_version.outputs.PACKAGE_VERSION }}.deb                                                                                                                                                                              
         asset_content_type: application/x-deb
