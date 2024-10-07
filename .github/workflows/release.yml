@@ -23,8 +23,8 @@ jobs:
                                                                                                                                                                                                                                                          
     - name: Extract version from package.json                                                                                                                                                                                                            
       id: extract_version                                                                                                                                                                                                                                
-      run: echo "::set-output name=PACKAGE_VERSION::$(node -p \"require('./package.json').version\")"                                                                                                                                                       
-                                                                                                                                                                                                                                                         
+      run: echo "PACKAGE_VERSION=$(node -e \"console.log(require('./package.json').version);\")" >> $GITHUB_ENV 
+
     - name: Build for Linux                                                                                                                                                                                                                              
       run: yarn build:linux                                                                                                                                                                                                                              
                                                                                                                                                                                                                                                          
