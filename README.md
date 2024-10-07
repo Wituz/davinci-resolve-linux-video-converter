@@ -21,3 +21,7 @@ After converting (audio works):
 - Simple drag and drop interface
 - You can also browse files manually
 - Batch processing
+
+# Usage
+[2024-10-07 12-47-16.webm](https://github.com/user-attachments/assets/821dce8f-8108-40ef-9691-874ce61600cb)
+
