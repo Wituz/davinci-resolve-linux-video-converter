@@ -21,9 +21,9 @@ jobs:
     - name: Install dependencies                                                                                                                                                                                                                         
       run: yarn install                                                                                                                                                                                                                                  
   
-    - name: Extract version from package.json                                                                                                                                                                                                                
+    - name: Set Package Version                                                                                                                                                                                                                
       id: extract_version
-      run: echo ::set-output name=PACKAGE_VERSION::$(npm pkg get version)
+      run: echo ::set-output name=PACKAGE_VERSION::$(echo "1.0.0")
 
     - name: Build for Linux                                                                                                                                                                                                                              
       run: yarn build:linux                                                                                                                                                                                                                              
