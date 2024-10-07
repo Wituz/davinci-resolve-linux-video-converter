@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
+  "license": "MIT",
   "author": "example.com",
   "homepage": "https://electron-vite.org",
   "scripts": {
@@ -18,7 +19,8 @@
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",
-    "build:linux": "electron-vite build && electron-builder --linux"
+    "build:linux": "electron-vite build && electron-builder --linux",
+    "version": "echo $npm_package_version"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
