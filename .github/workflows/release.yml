@@ -22,8 +22,8 @@ jobs:
       run: yarn install                                                                                                                                                                                                                                  
   
     - name: Extract version from package.json                                                                                                                                                                                                                
-      id: extract_version                                                                                                                                                                                                                                    
-      run: echo "PACKAGE_VERSION=$(node -pe 'require(\"./package.json\").version')" >> $GITHUB_ENV
+      id: extract_version
+      run: echo ::set-output name=PACKAGE_VERSION::$(node -p "require('./package.json').version")
 
     - name: Build for Linux                                                                                                                                                                                                                              
       run: yarn build:linux                                                                                                                                                                                                                              
@@ -39,7 +39,7 @@ jobs:
         draft: false                                                                                                                                                                                                                                     
         prerelease: false                                                                                                                                                                                                                                
                                                                                                                                                                                                                                                          
-    - name: Upload Release Asset                                                                                                                                                                                                                         
+    - name: Upload Release Asset (.AppImage)                                                                                                                                                                                                                         
       uses: actions/upload-release-asset@v1                                                                                                                                                                                                              
       env:                                                                                                                                                                                                                                               
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}                                                                                                                                                                                                        
@@ -48,3 +48,13 @@ jobs:
         asset_path: ./dist/davinci-resolve-converter-${{ env.PACKAGE_VERSION }}.AppImage                                                                                                                                                                 
         asset_name: davinci-resolve-converter-${{ env.PACKAGE_VERSION }}.AppImage                                                                                                                                                                        
         asset_content_type: application/x-appimage 
+
+    - name: Upload Release Asset (.deb)                                                                                                                                                                                                                         
+      uses: actions/upload-release-asset@v1                                                                                                                                                                                                              
+      env:                                                                                                                                                                                                                                               
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}                                                                                                                                                                                                        
+      with:                                                                                                                                                                                                                                              
+        upload_url: ${{ steps.create_release.outputs.upload_url }}                                                                                                                                                                                       
+        asset_path: ./dist/davinci-resolve-converter-${{ env.PACKAGE_VERSION }}.deb                                                                                                                                                                      
+        asset_name: davinci-resolve-converter-${{ env.PACKAGE_VERSION }}.deb                                                                                                                                                                              
+        asset_content_type: application/x-deb
